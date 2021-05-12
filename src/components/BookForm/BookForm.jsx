@@ -1,28 +1,34 @@
 import Axios from 'axios';
 import {useState} from 'react';
+import {useDispatch} from 'react-redux';
 
-function BookForm({fetchBookList}) {
+
+function BookForm() {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();
 
     console.log(`Adding book`, {title, author});
 
+    dispatch({type: 'ADD_BOOK', payload: {title: title, author: author}})
     // TODO - axios request to server to add book
-    Axios.post('/books', {
-      title: title, author: author
-    })
-      .then( response => {
-        console.log('added book succesfully');
-        // GET the books from the server again
-        fetchBookList();
-      })
-      .catch(error => {
-        alert(`Sorry, Things are working at the moment`)
-        console.log('Error adding book', error);
-      })
+    // Axios.post('/books', {
+    //   title: title, author: author
+    // })
+    //   .then( response => {
+    //     console.log('added book succesfully');
+    //     // GET the books from the server again
+    //     // Todo - replace this function with dispatch action
+    //     dispatch({type: 'FETCH_BOOKS'});
+    //   })
+    //   .catch(error => {
+    //     alert(`Sorry, Things are working at the moment`)
+    //     console.log('Error adding book', error);
+    //   })
   };
 
   return (
